@@ -206,41 +206,50 @@ const server = new Server(
 
 // Register tool handlers
 server.setRequestHandler(ListToolsRequestSchema, async () => {
+  console.log('[MCP Server] Listing available tools');
   return { tools: TOOLS };
 });
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
+  console.log(`[MCP Server] Tool called: ${name}`, { arguments: args });
 
   try {
     let result: any;
 
     switch (name) {
       case 'get_stale_prs':
+        console.log('[MCP Server] Executing get_stale_prs');
         result = await getStalePRs(args as any);
         break;
 
       case 'get_review_metrics':
+        console.log('[MCP Server] Executing get_review_metrics');
         result = await getReviewMetrics(args as any);
         break;
 
       case 'get_reviewer_workload':
+        console.log('[MCP Server] Executing get_reviewer_workload');
         result = await getReviewerWorkload(args as any);
         break;
 
       case 'suggest_reviewers':
+        console.log('[MCP Server] Executing suggest_reviewers');
         result = await suggestReviewers(args as any);
         break;
 
       case 'analyze_review_bottlenecks':
+        console.log('[MCP Server] Executing analyze_review_bottlenecks');
         result = await analyzeReviewBottlenecks(args as any);
         break;
 
       case 'get_pr_review_history':
+        console.log('[MCP Server] Executing get_pr_review_history');
         result = await getPRReviewHistory(args as any);
         break;
 
       case 'generate_review_report':
+        console.log('[MCP Server] Executing generate_review_report');
         result = await generateReviewReport(args as any);
         break;
 
@@ -248,6 +257,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         throw new Error(`Unknown tool: ${name}`);
     }
 
+    console.log(`[MCP Server] Tool ${name} completed successfully`);
     return {
       content: [
         {
@@ -257,6 +267,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       ],
     };
   } catch (error: any) {
+    console.error(`[MCP Server] Error executing ${name}:`, error);
     return {
       content: [
         {
@@ -283,10 +294,12 @@ const transport = new StreamableHTTPServerTransport({
 
 // Hook up transport to Express routes
 app.post('/mcp', (req, res) => {
+  console.log('[MCP Server] Received POST request to /mcp');
   transport.handleRequest(req, res, req.body);
 });
 
 app.get('/mcp', (req, res) => {
+  console.log('[MCP Server] Received GET request to /mcp');
   transport.handleRequest(req, res);
 });
 

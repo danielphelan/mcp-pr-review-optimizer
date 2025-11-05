@@ -19,6 +19,7 @@ export interface PRInfo {
   requested_reviewers: string[];
   assignees: string[];
   labels: string[];
+  merged_at?: string;
 }
 
 export interface ReviewInfo {
@@ -73,6 +74,7 @@ export interface ReviewerMetrics {
   request_changes_rate: number;
   comment_only_rate: number;
   current_assigned_prs: number;
+  avg_time_to_merge_hours?: number;
 }
 
 export interface ReviewerWorkload {

@@ -46,8 +46,8 @@ export async function calculateExpertise(repo: string): Promise<{
   // Get all commits in the lookback period
   const commits = await githubClient.getCommits(repo, lookbackDate);
 
-  // Get all PRs to analyze reviews
-  const prs = await githubClient.getOpenPullRequests([repo]);
+  // Get all PRs to analyze reviews (including merged for expertise scoring)
+  const prs = await githubClient.getOpenPullRequests([repo], 'all');
 
   const fileExpertise: FileExpertise = {};
   const directoryExpertise: DirectoryExpertise = {};

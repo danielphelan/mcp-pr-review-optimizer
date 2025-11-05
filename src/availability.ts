@@ -21,8 +21,8 @@ export async function calculateReviewerWorkload(
     return cached;
   }
 
-  // Get all open PRs
-  const prs = await githubClient.getOpenPullRequests(repos);
+  // Get all open PRs to calculate current workload
+  const prs = await githubClient.getOpenPullRequests(repos, 'open');
 
   // Track metrics per reviewer
   const reviewerStats = new Map<string, {
@@ -156,7 +156,7 @@ export async function calculateAverageResponseTime(
   reviewer: string,
   repos?: string[]
 ): Promise<number> {
-  const prs = await githubClient.getOpenPullRequests(repos);
+  const prs = await githubClient.getOpenPullRequests(repos, 'all');
   const responseTimes: number[] = [];
 
   for (const pr of prs) {

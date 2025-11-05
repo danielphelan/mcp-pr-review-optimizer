@@ -24,8 +24,8 @@ export async function analyzeReviewBottlenecks(params: AnalyzeReviewBottlenecksP
     min_prs = 5,
   } = params;
 
-  // Get PRs
-  const prs = await githubClient.getOpenPullRequests(repositories);
+  // Get all PRs for comprehensive bottleneck analysis
+  const prs = await githubClient.getOpenPullRequests(repositories, 'all');
 
   // Filter PRs by date
   const cutoffDate = new Date();

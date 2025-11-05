@@ -52,8 +52,8 @@ export async function generateReviewReport(params: GenerateReviewReportParams) {
     };
   };
 
-  // Get all open PRs for additional context
-  const allPRs = await githubClient.getOpenPullRequests(repositories);
+  // Get all PRs for comprehensive report context
+  const allPRs = await githubClient.getOpenPullRequests(repositories, 'all');
 
   // Start building the report
   let report = '';

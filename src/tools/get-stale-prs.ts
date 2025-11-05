@@ -26,7 +26,7 @@ export async function getStalePRs(params: GetStalePRsParams) {
   } = params;
 
   // Get all open PRs
-  const prs = await githubClient.getOpenPullRequests(repositories);
+  const prs = await githubClient.getOpenPullRequests(repositories, 'open');
 
   const now = new Date();
   const stalePRs: StalePR[] = [];
